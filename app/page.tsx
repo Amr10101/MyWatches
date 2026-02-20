@@ -8,6 +8,7 @@ import CollectionGrid from './components/CollectionGrid';
 import Cart from './components/Cart';
 import Footer from './components/Footer';
 import { CartItem, Watch } from '../types/types';
+import { WATCHES } from '../data/watches';
 
 export default function MyWatchesPage() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -47,7 +48,7 @@ export default function MyWatchesPage() {
   const cartCount = cartItems.reduce((a, i) => a + i.quantity, 0);
 
   return (
-    <div className="min-h-screen" style={{ background: 'var(--ink)', color: 'var(--cream)' }}>
+    <div className="min-h-screen" style={{ background: 'var(--ink)', color: 'var(--w1)' }}>
       <Header cartCount={cartCount} onOpenCart={() => setIsCartOpen(true)} />
 
       <main>
