@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Responsive Website with Modern UIUX"
+  title: "My Watches"
 }
 
 export default function RootLayout({
@@ -12,7 +12,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-gray-900">
+      <body className="">
         {children}
       </body>
     </html>
