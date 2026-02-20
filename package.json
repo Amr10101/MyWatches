@@ -9,7 +9,6 @@
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
-    "@repo/database": "workspace:*",
     "clsx": "^2.1.1",
     "framer-motion": "^12.34.0",
     "nanoid": "^3.3.11",
