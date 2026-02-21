@@ -14,11 +14,10 @@ const WatchCard: React.FC<{
     watch: Watch;
     onAddToCart: (watch: Watch, variantId: string) => void;
     delay: string;
-    tall?: boolean;
-}> = ({ watch, onAddToCart, delay, tall }) => {
+    large?: boolean;
+}> = ({ watch, onAddToCart, delay, large }) => {
     const [selected, setSelected] = useState<WatchVariant>(watch.variants[0]);
     const [added, setAdded] = useState(false);
-    const [open, setOpen] = useState(false);
 
     const handleAdd = () => {
         onAddToCart(watch, selected.id);
@@ -27,153 +26,119 @@ const WatchCard: React.FC<{
     };
 
     return (
-        <FadeIn delay={delay} className="flex flex-col h-full">
+        <FadeIn delay={delay} className="h-full">
             <div
-                className="watch-card flex flex-col h-full"
-                style={{ background: 'var(--ink-2)', border: '1px solid var(--b1)' }}
+                className="watch-card-hover flex flex-col h-full"
+                style={{ background: 'var(--white)', border: '1px solid var(--line)' }}
             >
-                {/* Image */}
+                {/* ── Image — takes up most of the visual space ── */}
                 <div
-                    className="img-zoom relative overflow-hidden"
-                    style={{ height: tall ? 400 : 300, background: 'var(--ink-3)' }}
+                    className="img-reveal relative overflow-hidden"
+                    style={{ height: large ? '420px' : '320px', background: 'var(--cream-2)', flexShrink: 0 }}
                 >
                     <img
                         src={watch.image}
                         alt={watch.name}
                         className="w-full h-full object-cover"
                     />
-                    <div
-                        className="absolute inset-0 pointer-events-none"
-                        style={{ background: 'linear-gradient(to bottom, transparent 50%, var(--ink-2) 100%)' }}
-                    />
+                    {/* Edition badge on image — white card so always readable */}
                     {watch.edition && (
-                        <div
-                            className="absolute top-5 left-5 flex items-center gap-2 px-3 py-1.5"
-                            style={{ border: `1px solid ${watch.accentHex}55`, background: `${watch.accentHex}18` }}
-                        >
-                            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: watch.accentHex }} />
-                            <span className="font-mono text-[8px] tracking-[0.25em] uppercase" style={{ color: watch.accentHex }}>
-                                {watch.edition}
-                            </span>
+                        <div className="absolute top-4 left-4">
+                            <div
+                                className="inline-flex items-center gap-2 px-3 py-1.5"
+                                style={{ background: 'rgba(253,251,248,0.9)', backdropFilter: 'blur(8px)' }}
+                            >
+                                <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--gold)' }} />
+                                <span className="font-ui text-[10px] font-medium" style={{ color: 'var(--ink)', letterSpacing: '0.03em' }}>
+                                    {watch.edition}
+                                </span>
+                            </div>
                         </div>
                     )}
-                    <div className="absolute bottom-4 left-5">
-                        <span className="font-mono text-[8px] tracking-[0.3em] uppercase" style={{ color: 'var(--w3)' }}>
-                            {watch.collection} Collection
-                        </span>
+                    {/* Collection label bottom */}
+                    <div
+                        className="absolute bottom-0 left-0 right-0 px-5 pb-4 pt-10 pointer-events-none"
+                        style={{ background: 'linear-gradient(to top, rgba(247,243,236,0.9), transparent)' }}
+                    >
+                        <p className="font-ui text-[11px] font-medium" style={{ color: 'var(--subtle)' }}>
+                            {watch.collection}
+                        </p>
                     </div>
                 </div>
 
-                {/* Content — solid panel, always readable */}
-                <div className="flex flex-col flex-1 p-7">
-                    {/* Name — w1 */}
-                    <h3 className="font-display text-[26px] font-light leading-tight mb-1" style={{ color: 'var(--w1)' }}>
-                        {watch.name}
-                    </h3>
-                    {/* Tagline — w2 italic */}
-                    <p className="font-sans text-[12px] font-light italic mb-5" style={{ color: 'var(--w2)' }}>
-                        {watch.tagline}
-                    </p>
-
-                    {/* Mini specs */}
-                    <div className="mb-5" style={{ borderTop: '1px solid var(--b1)', borderBottom: '1px solid var(--b1)', paddingTop: '12px', paddingBottom: '12px' }}>
-                        <div className="grid grid-cols-2 gap-0">
-                            {[
-                                ['Case', watch.caseDiameter],
-                                ['Reserve', watch.powerReserve],
-                                ['Material', watch.caseMaterial.split(' ')[0]],
-                                ['Depth', watch.waterResistance],
-                            ].map(([k, v]) => (
-                                <div key={k} className="spec-row pr-3">
-                                    <span className="spec-key">{k}</span>
-                                    <span className="spec-val text-[10px]">{v}</span>
-                                </div>
-                            ))}
-                        </div>
+                {/* ── Info — white surface, clean and readable ── */}
+                <div className="flex flex-col flex-1 p-6">
+                    {/* Name + tagline */}
+                    <div className="mb-5">
+                        <h3
+                            className="font-serif font-medium leading-tight mb-1"
+                            style={{ fontSize: '26px', color: 'var(--ink)' }}
+                        >
+                            {watch.name}
+                        </h3>
+                        <p className="font-ui text-[13px]" style={{ color: 'var(--subtle)', lineHeight: '1.6' }}>
+                            {watch.tagline}
+                        </p>
                     </div>
 
-                    {/* Full specs accordion */}
-                    <div className="mb-5">
-                        <button
-                            onClick={() => setOpen(!open)}
-                            className="w-full flex justify-between items-center py-2 transition-colors"
-                            style={{ color: 'var(--w3)' }}
-                            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--w1)'; }}
-                            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--w3)'; }}
-                        >
-                            <span className="font-mono text-[9px] tracking-[0.28em] uppercase">Full specifications</span>
-                            <span className="font-mono text-[16px] leading-none">{open ? '−' : '+'}</span>
-                        </button>
-                        <div
-                            className="overflow-hidden transition-all duration-500"
-                            style={{ maxHeight: open ? '400px' : '0px' }}
-                        >
-                            <div className="pt-3">
-                                {Object.entries(watch.specs).map(([k, v]) => (
-                                    <div key={k} className="spec-row">
-                                        <span className="spec-key">{k}</span>
-                                        <span className="spec-val">{v}</span>
-                                    </div>
-                                ))}
+                    {/* 4 key specs — clean, readable */}
+                    <div className="mb-5 space-y-1" style={{ borderTop: '1px solid var(--line)', paddingTop: '16px' }}>
+                        {[
+                            [watch.caseDiameter, 'Case diameter'],
+                            [watch.powerReserve, 'Power reserve'],
+                            [watch.waterResistance, 'Water resistance'],
+                            [watch.caseMaterial, 'Material'],
+                        ].map(([val, key]) => (
+                            <div key={key} className="flex justify-between items-baseline py-1.5" style={{ borderBottom: '1px solid var(--line)' }}>
+                                <span className="font-ui text-[12px]" style={{ color: 'var(--subtle)' }}>{key}</span>
+                                <span className="font-ui text-[13px] font-medium" style={{ color: 'var(--ink)' }}>{val}</span>
                             </div>
-                        </div>
+                        ))}
                     </div>
 
                     {/* Variant selector */}
                     <div className="mb-5">
-                        <p className="font-mono text-[9px] tracking-[0.3em] uppercase mb-2.5" style={{ color: 'var(--w3)' }}>
-                            Configuration
+                        <p className="font-ui text-[11px] mb-2.5" style={{ color: 'var(--subtle)' }}>
+                            Configuration — <span style={{ color: 'var(--ink)', fontWeight: 500 }}>{selected.name}</span>
                         </p>
-                        <div className="flex flex-col gap-1.5">
+                        <div className="flex flex-wrap gap-1.5">
                             {watch.variants.map((v) => {
                                 const active = selected.id === v.id;
                                 return (
                                     <button
                                         key={v.id}
                                         onClick={() => setSelected(v)}
-                                        className="flex justify-between items-center px-4 py-3 font-mono text-[10px] tracking-[0.1em] uppercase transition-all duration-200"
+                                        className="px-3.5 py-2 font-ui text-[11px] font-medium transition-all duration-200"
                                         style={{
-                                            border: `1px solid ${active ? 'var(--gold)' : 'var(--b2)'}`,
-                                            background: active ? 'var(--gold-bg)' : 'transparent',
-                                            color: active ? 'var(--gold)' : 'var(--w2)',
+                                            border: `1.5px solid ${active ? 'var(--forest)' : 'var(--line-2)'}`,
+                                            background: active ? 'var(--forest)' : 'transparent',
+                                            color: active ? 'var(--white)' : 'var(--body)',
                                         }}
                                     >
-                                        <span>{v.name}</span>
-                                        <div className="flex items-center gap-3">
-                                            {v.originalPrice && (
-                                                <span style={{ color: 'var(--w4)', textDecoration: 'line-through', fontSize: '9px' }}>
-                                                    ${v.originalPrice.toLocaleString()}
-                                                </span>
-                                            )}
-                                            <span
-                                                className="font-display font-light"
-                                                style={{ fontSize: '15px', color: active ? 'var(--gold)' : 'var(--w1)' }}
-                                            >
-                                                ${v.price.toLocaleString()}
-                                            </span>
-                                            {active && <Check size={12} strokeWidth={2.5} style={{ color: 'var(--gold)' }} />}
-                                        </div>
+                                        {v.name}
                                     </button>
                                 );
                             })}
                         </div>
                     </div>
 
-                    {/* CTA row */}
-                    <div className="mt-auto flex items-center justify-between pt-6" style={{ borderTop: '1px solid var(--b1)' }}>
+                    {/* Price + CTA */}
+                    <div className="mt-auto flex items-center justify-between pt-5" style={{ borderTop: '1px solid var(--line)' }}>
                         <div>
-                            <span className="font-display font-light leading-none" style={{ fontSize: '32px', color: 'var(--w1)' }}>
+                            {selected.originalPrice && (
+                                <p className="font-ui text-[12px] line-through" style={{ color: 'var(--faint)' }}>
+                                    ${selected.originalPrice.toLocaleString()}
+                                </p>
+                            )}
+                            <p className="price" style={{ fontSize: '30px' }}>
                                 ${selected.price.toLocaleString()}
-                            </span>
-                            <span className="font-mono text-[9px] tracking-[0.1em] block mt-1" style={{ color: 'var(--w3)' }}>
-                                {selected.bracelet}
-                            </span>
+                            </p>
                         </div>
-                        <button
-                            onClick={handleAdd}
-                            className="btn-primary flex items-center gap-2"
-                        >
-                            {added ? <><Check size={12} /> Added</> : <>Acquire <ArrowRight size={12} /></>}
+                        <button onClick={handleAdd} className="btn-cta px-5 py-3">
+                            {added
+                                ? <><Check size={13} /> Added</>
+                                : <>Acquire <ArrowRight size={13} /></>
+                            }
                         </button>
                     </div>
                 </div>
@@ -183,59 +148,62 @@ const WatchCard: React.FC<{
 };
 
 const CollectionGrid: React.FC<CollectionGridProps> = ({ onAddToCart }) => (
-    <section id="collection" className="py-28 md:py-36 px-8" style={{ background: 'var(--ink-3)' }}>
-        <div className="max-w-[1440px] mx-auto">
+    <section id="collection" className="py-24 md:py-32 px-8" style={{ background: 'var(--cream-2)' }}>
+        <div className="max-w-[1380px] mx-auto">
 
             {/* Header */}
             <FadeIn>
-                <div
-                    className="flex flex-col md:flex-row md:items-end justify-between mb-20 pb-12"
-                    style={{ borderBottom: '1px solid var(--b1)' }}
-                >
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 pb-10" style={{ borderBottom: '1px solid var(--line)' }}>
                     <div>
-                        <span className="font-mono text-[9px] tracking-[0.38em] uppercase block mb-5" style={{ color: 'var(--w3)' }}>
+                        <p className="font-ui text-[12px] font-medium mb-4" style={{ color: 'var(--subtle)', letterSpacing: '0.06em' }}>
                             The Collection
-                        </span>
-                        <h2 className="font-display font-light leading-[0.95]" style={{ fontSize: 'clamp(38px,4.5vw,66px)', color: 'var(--w1)' }}>
-                            Four references.<br />
-                            <em className="italic text-gold-shimmer">No compromises.</em>
+                        </p>
+                        <h2 className="font-serif font-light leading-[0.95]" style={{ fontSize: 'clamp(36px,4.5vw,64px)', color: 'var(--ink)' }}>
+                            Four references.
+                            <br />
+                            <em className="italic" style={{ color: 'var(--gold)' }}>No compromise.</em>
                         </h2>
                     </div>
-                    <div className="flex items-center gap-3 px-5 py-3" style={{ border: '1px solid var(--b1)' }}>
-                        <div className="w-1.5 h-1.5 rounded-full animate-dot" style={{ background: 'var(--gold)' }} />
-                        <span className="font-mono text-[10px] tracking-[0.22em] uppercase" style={{ color: 'var(--w3)' }}>
-                            Current availability · 2024
-                        </span>
-                    </div>
+                    <p className="font-ui text-[14px] mt-6 md:mt-0 max-w-[320px]" style={{ color: 'var(--body)', lineHeight: '1.75' }}>
+                        Each reference is produced once a year. When the parts run out, the edition closes. There is no restock.
+                    </p>
                 </div>
             </FadeIn>
 
-            {/* Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-                <WatchCard watch={WATCHES[0]} onAddToCart={onAddToCart} delay="0s" tall />
-                <WatchCard watch={WATCHES[3]} onAddToCart={onAddToCart} delay="0.1s" tall />
+            {/* 2-column top row */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+                <WatchCard watch={WATCHES[0]} onAddToCart={onAddToCart} delay="0s" large />
+                <WatchCard watch={WATCHES[3]} onAddToCart={onAddToCart} delay="0.1s" large />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            {/* 2-column bottom row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <WatchCard watch={WATCHES[1]} onAddToCart={onAddToCart} delay="0s" />
                 <WatchCard watch={WATCHES[2]} onAddToCart={onAddToCart} delay="0.1s" />
             </div>
 
-            {/* Info strip */}
+            {/* Trust strip */}
             <FadeIn>
-                <div className="mt-12 p-8" style={{ border: '1px solid var(--b1)', background: 'var(--ink-2)' }}>
-                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                        <div>
-                            <p className="font-mono text-[11px] tracking-[0.12em] mb-2" style={{ color: 'var(--w2)' }}>
-                                All references include: lifetime movement service, 5-year warranty, and a certificate of authenticity.
-                            </p>
-                            <p className="font-mono text-[10px] tracking-[0.08em]" style={{ color: 'var(--w3)' }}>
-                                4–6 week delivery. Fully insured worldwide shipping. 30-day return window.
-                            </p>
-                        </div>
-                        <div className="flex gap-3 flex-shrink-0">
-                            <a href="#" className="btn-ghost text-[10px]">Download lookbook</a>
-                            <a href="#" className="btn-ghost text-[10px]">Book a consultation</a>
-                        </div>
+                <div
+                    className="mt-10 px-8 py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-5"
+                    style={{ background: 'var(--white)', border: '1px solid var(--line)' }}
+                >
+                    <div className="flex flex-col md:flex-row gap-6 md:gap-12">
+                        {[
+                            ['Lifetime service', "Every movement we've made"],
+                            ['5-year warranty', 'On all references'],
+                            ['30-day returns', 'No questions asked'],
+                            ['Insured worldwide', 'Delivery in 4–6 weeks'],
+                        ].map(([title, sub]) => (
+                            <div key={title}>
+                                <p className="font-ui text-[13px] font-semibold" style={{ color: 'var(--ink)' }}>{title}</p>
+                                <p className="font-ui text-[12px]" style={{ color: 'var(--subtle)' }}>{sub}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex gap-3 flex-shrink-0">
+                        <button className="btn-outline px-5 py-2.5 text-[12px]">Download lookbook</button>
+                        <button className="btn-outline px-5 py-2.5 text-[12px]">Book a consultation</button>
                     </div>
                 </div>
             </FadeIn>

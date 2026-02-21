@@ -4,62 +4,42 @@ import React from 'react';
 
 const COLS = {
     Collection: ['Aether Noir', 'Meridian Frost', 'Chronos Terra', 'Solstice Or', 'Archive'],
-    Chronicle: ['Our philosophy', 'The movement', 'The dial', 'The atelier', 'Journal'],
-    Atelier: ['Service centre', 'Book a visit', 'Le Locle workshops', 'Custom orders'],
-    Support: ['Shipping & delivery', 'Warranty', 'Returns', 'Contact', 'FAQ'],
+    Chronicle: ['Philosophy', 'The movement', 'The dial', 'Atelier', 'Journal'],
+    Service: ['Servicing', 'Book a visit', 'Workshops', 'Custom orders'],
+    Support: ['Shipping', 'Warranty', 'Returns', 'Contact', 'FAQ'],
 };
 
 const Footer: React.FC = () => (
-    <footer style={{ background: 'var(--ink)', borderTop: '1px solid var(--b1)' }}>
-        <div className="max-w-[1440px] mx-auto px-8">
+    <footer style={{ background: 'var(--cream)', borderTop: '1px solid var(--line)' }}>
+        <div className="max-w-[1380px] mx-auto px-8">
 
-            {/* Decorative wordmark row */}
-            <div className="py-16" style={{ borderBottom: '1px solid var(--b1)' }}>
-                <div className="flex flex-col md:flex-row items-end justify-between gap-8">
-                    {/* Ghost wordmark — purely decorative, very low opacity */}
-                    <h2
-                        className="font-display font-light leading-[0.88] tracking-[-0.02em]"
-                        style={{ fontSize: 'clamp(56px,10vw,130px)', color: 'rgba(247,244,239,0.03)' }}
-                    >
-                        MyWatches
-                    </h2>
-                    <div className="flex flex-col items-start md:items-end gap-2">
-                        <span className="font-display text-[20px] font-light tracking-[0.06em]" style={{ color: 'var(--w1)' }}>
-                            My<span style={{ color: 'var(--gold)' }}>Watches</span>
-                        </span>
-                        <span className="font-mono text-[9px] tracking-[0.3em] uppercase" style={{ color: 'var(--w3)' }}>
-                            Haute Horlogerie · Geneva Canton
-                        </span>
-                        <span className="font-mono text-[9px] tracking-[0.2em]" style={{ color: 'var(--w4)' }}>
-                            Est. Le Locle, 2016
-                        </span>
+            {/* Top row */}
+            <div className="py-16 grid grid-cols-1 md:grid-cols-[1.4fr_3fr] gap-16" style={{ borderBottom: '1px solid var(--line)' }}>
+                {/* Brand */}
+                <div>
+                    <div className="font-serif font-medium mb-3" style={{ fontSize: '24px', color: 'var(--ink)' }}>
+                        My<span style={{ color: 'var(--forest)' }}>Watches</span>
                     </div>
-                </div>
-            </div>
-
-            {/* Link columns */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-12 py-20" style={{ borderBottom: '1px solid var(--b1)' }}>
-                {/* Newsletter */}
-                <div className="col-span-2 md:col-span-1">
-                    <p className="font-mono text-[9px] tracking-[0.35em] uppercase mb-5" style={{ color: 'var(--w4)' }}>
-                        The Chronicle
+                    <p className="font-ui text-[13px] mb-6" style={{ color: 'var(--subtle)', lineHeight: '1.75' }}>
+                        Haute horlogerie. Le Locle, Geneva Canton. Built to last a lifetime.
                     </p>
-                    <p className="font-sans text-[13px] font-light leading-[1.85] mb-6" style={{ color: 'var(--w3)' }}>
-                        Movement updates, limited editions, and essays on mechanical horology.
-                    </p>
-                    <div style={{ borderBottom: '1px solid var(--b2)' }}>
-                        <div className="flex">
+                    {/* Newsletter */}
+                    <div className="mb-1">
+                        <p className="font-ui text-[11px] font-medium mb-3" style={{ color: 'var(--subtle)', letterSpacing: '0.04em' }}>
+                            The Chronicle — movement updates, limited editions
+                        </p>
+                        <div className="flex" style={{ borderBottom: '1.5px solid var(--line-2)' }}>
                             <input
                                 type="email"
-                                placeholder="your@email.com"
-                                className="flex-1 bg-transparent py-3 font-mono text-[11px] tracking-[0.04em] outline-none"
-                                style={{ color: 'var(--w1)', fontFamily: 'DM Mono, monospace' }}
+                                placeholder="Your email"
+                                className="flex-1 bg-transparent py-2.5 font-ui text-[13px] outline-none"
+                                style={{ color: 'var(--ink)' }}
                             />
                             <button
-                                className="font-mono text-[9px] tracking-[0.28em] uppercase py-3 pl-4 transition-colors"
-                                style={{ color: 'var(--gold)' }}
-                                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--gold-hi)'; }}
-                                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--gold)'; }}
+                                className="font-ui text-[12px] font-semibold pl-4 py-2.5 transition-colors"
+                                style={{ color: 'var(--forest)' }}
+                                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--forest-2)'; }}
+                                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--forest)'; }}
                             >
                                 Subscribe
                             </button>
@@ -67,64 +47,65 @@ const Footer: React.FC = () => (
                     </div>
                 </div>
 
-                {Object.entries(COLS).map(([title, links]) => (
-                    <div key={title}>
-                        <p className="font-mono text-[9px] tracking-[0.35em] uppercase mb-5" style={{ color: 'var(--w4)' }}>
-                            {title}
-                        </p>
-                        <ul className="space-y-3.5">
-                            {links.map((link) => (
-                                <li key={link}>
-                                    <a
-                                        href="#"
-                                        className="font-sans text-[13px] font-light transition-colors"
-                                        style={{ color: 'var(--w3)' }}
-                                        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--w1)'; }}
-                                        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--w3)'; }}
-                                    >
-                                        {link}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                ))}
+                {/* Links */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
+                    {Object.entries(COLS).map(([title, links]) => (
+                        <div key={title}>
+                            <p className="font-ui text-[11px] font-semibold mb-5" style={{ color: 'var(--ink)', letterSpacing: '0.04em' }}>
+                                {title}
+                            </p>
+                            <ul className="space-y-3">
+                                {links.map((link) => (
+                                    <li key={link}>
+                                        <a
+                                            href="#"
+                                            className="font-ui text-[13px] transition-colors"
+                                            style={{ color: 'var(--subtle)' }}
+                                            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--ink)'; }}
+                                            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--subtle)'; }}
+                                        >
+                                            {link}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                </div>
             </div>
 
-            {/* Address + certs */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-10" style={{ borderBottom: '1px solid var(--b1)' }}>
+            {/* Address row */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-8" style={{ borderBottom: '1px solid var(--line)' }}>
                 {[
                     { label: 'Atelier', lines: ['Rue du Progrès 18', 'Le Locle, CH-2400', 'Geneva Canton, Switzerland'] },
-                    { label: 'Service Centre', lines: ['Open Mon–Fri 09:00–17:00', 'By appointment only', '+41 32 931 XX XX'] },
-                    { label: 'Certifications', lines: ['COSC Chronometer standard', 'Swiss Made · 100%', 'ISO 6425 Diver spec (Terra)'] },
+                    { label: 'Service Centre', lines: ['Mon–Fri 09:00–17:00', 'By appointment', '+41 32 931 XX XX'] },
+                    { label: 'Certifications', lines: ['COSC Chronometer', 'Swiss Made · 100%', 'ISO 6425 (Chronos Terra)'] },
                 ].map(({ label, lines }) => (
                     <div key={label}>
-                        <p className="font-mono text-[9px] tracking-[0.35em] uppercase mb-3" style={{ color: 'var(--w4)' }}>
+                        <p className="font-ui text-[11px] font-semibold mb-3" style={{ color: 'var(--ink)', letterSpacing: '0.04em' }}>
                             {label}
                         </p>
                         {lines.map((l) => (
-                            <p key={l} className="font-mono text-[11px] tracking-[0.06em] mb-1" style={{ color: 'var(--w3)' }}>
-                                {l}
-                            </p>
+                            <p key={l} className="font-ui text-[12px] mb-1" style={{ color: 'var(--subtle)' }}>{l}</p>
                         ))}
                     </div>
                 ))}
             </div>
 
-            {/* Bottom bar */}
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 py-7">
-                <span className="font-mono text-[9px] tracking-[0.15em]" style={{ color: 'var(--w4)' }}>
+            {/* Bottom */}
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 py-6">
+                <span className="font-ui text-[12px]" style={{ color: 'var(--faint)' }}>
                     © {new Date().getFullYear()} MyWatches SA · All rights reserved
                 </span>
-                <div className="flex gap-8">
-                    {['Privacy', 'Cookie policy', 'Terms of sale', 'Sitemap'].map((item) => (
+                <div className="flex gap-7">
+                    {['Privacy', 'Cookies', 'Terms', 'Sitemap'].map((item) => (
                         <a
                             key={item}
                             href="#"
-                            className="font-mono text-[8px] tracking-[0.2em] uppercase transition-colors"
-                            style={{ color: 'var(--w4)' }}
-                            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--w3)'; }}
-                            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--w4)'; }}
+                            className="font-ui text-[12px] transition-colors"
+                            style={{ color: 'var(--faint)' }}
+                            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--subtle)'; }}
+                            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--faint)'; }}
                         >
                             {item}
                         </a>
